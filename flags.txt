@@ -1,0 +1,16 @@
+CTF{s73gh1d3_s3cr37s}
+CTF{1d0r_c4n_b3_f4t4l}
+CTF{pr0mpt_1nj3ct10n_m4st3r}
+CTF{1cmp_tunn3l_c0v3rt_ch4nn3l}
+CTF{p4th_h1j4ck_r00t_pr1v3sc}
+CTF{r0p_ch41n_v4ult_br34ch3d}
+
+ssh 
+
+ssh dev@localhost -p 2222
+SecretPass!2026
+
+
+ssh analyst@localhost -p 2223
+V4ult4n4lyst!
+	

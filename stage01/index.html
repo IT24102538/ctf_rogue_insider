@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Corporation | Secure Infrastructure & AI Systems</title>
+    <meta name="description" content="Nexus Corporation builds secure digital infrastructure, AI systems, and enterprise transformation solutions.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230c1220'/%3E%3Cg fill='none' stroke='%2300c3ff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 18h14v14H18zM32 18h14v14H32zM18 32h14v14H18zM32 32h14v14H32z'/%3E%3C/g%3E%3C/svg%3E">
+    <style>
+        :root {
+            --bg: #050b14;
+            --bg-2: #0d1524;
+            --panel: rgba(15, 21, 35, 0.88);
+            --panel-border: rgba(255,255,255,0.08);
+            --text: #edf6ff;
+            --muted: #8ea6bd;
+            --blue: #00c3ff;
+            --blue-strong: #0066ff;
+            --green: #45f5b5;
+            --red: #ff4d6d;
+            --gold: #ffd56b;
+            --shadow: 0 20px 60px rgba(0, 164, 255, 0.18);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(0, 195, 255, 0.15), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(0, 102, 255, 0.14), transparent 30%),
+                var(--bg);
+            color: var(--text);
+            font-family: system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+        }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; display: block; }
+        .container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(16px);
+            background: rgba(5, 11, 20, 0.82);
+            border-bottom: 1px solid var(--panel-border);
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 76px;
+            gap: 18px;
+        }
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            font-size: 1.35rem;
+        }
+        .brand-mark {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--blue), var(--blue-strong));
+            box-shadow: var(--shadow);
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+        .brand span { color: var(--blue); }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        .nav-links a { position: relative; transition: color 0.2s ease; }
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--blue), transparent);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .nav-links a:hover { color: var(--text); }
+        .nav-links a.disabled { opacity: 0.5; cursor: not-allowed; text-decoration: line-through; }
+        .nav-links a.disabled:hover { color: var(--muted); }
+        .nav-links a:hover::after { opacity: 1; }
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 195, 255, 0.3);
+            background: linear-gradient(135deg, rgba(0, 195, 255, 0.14), rgba(0, 102, 255, 0.18));
+            color: var(--text);
+            font-weight: 600;
+            box-shadow: var(--shadow);
+        }
+        .hero { padding: 72px 0 44px; }
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 42px;
+            align-items: center;
+        }
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(0, 195, 255, 0.3);
+            background: rgba(0, 195, 255, 0.08);
+            color: var(--blue);
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-family: "JetBrains Mono", monospace;
+        }
+        .eyebrow::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 12px rgba(69, 245, 181, 0.8);
+        }
+        h1 {
+            margin-top: 22px;
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            line-height: 0.96;
+            letter-spacing: -0.06em;
+            max-width: 680px;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #d6f4ff 0%, var(--blue) 35%, #5bc3ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero-copy {
+            margin-top: 24px;
+            max-width: 620px;
+            color: var(--muted);
+            font-size: 1.12rem;
+            line-height: 1.7;
+        }
+        .hero-actions {
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+        .primary-btn, .secondary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.9rem 1.35rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        .primary-btn {
+            background: linear-gradient(135deg, var(--blue), var(--blue-strong));
+            color: #ffffff;
+            box-shadow: var(--shadow);
+        }
+        .secondary-btn {
+            border: 1px solid var(--panel-border);
+            background: rgba(255,255,255,0.02);
+            color: var(--text);
+        }
+        .primary-btn:hover, .secondary-btn:hover { transform: translateY(-1px); }
+        .hero-stats {
+            margin-top: 34px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+        }
+        .stat strong {
+            display: block;
+            font-size: 1.65rem;
+            letter-spacing: -0.05em;
+            margin-bottom: 6px;
+        }
+        .stat span {
+            color: var(--muted);
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-family: "JetBrains Mono", monospace;
+        }
+        .logo-panel {
+            position: relative;
+            background: linear-gradient(180deg, rgba(12,18,32,0.95), rgba(9,14,24,0.9));
+            border: 1px solid var(--panel-border);
+            border-radius: 22px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+        .logo-panel::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(0,195,255,0.7), rgba(0,102,255,0.8), transparent);
+            z-index: -1;
+            filter: blur(16px);
+            opacity: 0.15;
+        }
+        .logo-box {
+            border-radius: 18px;
+            padding: 18px 18px 12px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .logo-box img {
+            width: min(100%, 280px);
+            margin: 0 auto 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .release {
+            margin-top: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            border: 1px solid rgba(69,245,181,0.25);
+            background: rgba(69,245,181,0.04);
+            color: var(--green);
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.04em;
+        }
+        .release-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 14px rgba(69,245,181,0.8);
+        }
+        .feature-grid {
+            margin-top: 64px;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+        .feature-card {
+            background: rgba(12,18,31,0.78);
+            border: 1px solid var(--panel-border);
+            border-radius: 18px;
+            padding: 24px 22px;
+            box-shadow: 0 12px 30px rgba(1, 11, 20, 0.35);
+        }
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(0,195,255,0.14), rgba(0,102,255,0.08));
+            font-size: 1.6rem;
+            margin-bottom: 18px;
+        }
+        .feature-card h3 {
+            font-size: 1.18rem;
+            margin-bottom: 10px;
+            letter-spacing: -0.03em;
+        }
+        .feature-card p {
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .download-section {
+            margin-top: 58px;
+            padding: 26px 0 72px;
+        }
+        .download-panel {
+            border: 1px solid var(--panel-border);
+            border-radius: 22px;
+            background: linear-gradient(180deg, rgba(10,16,24,0.95), rgba(13,20,32,0.82));
+            padding: 30px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .download-copy h3 {
+            font-size: clamp(1.4rem, 2vw, 2rem);
+            margin-bottom: 10px;
+            letter-spacing: -0.04em;
+        }
+        .download-copy p {
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 640px;
+        }
+        .download-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.9rem 1.2rem;
+            border-radius: 12px;
+            background: rgba(83, 120, 255, 0.12);
+            border: 1px solid rgba(0,195,255,0.28);
+            color: var(--text);
+            font-weight: 600;
+        }
+        footer {
+            border-top: 1px solid var(--panel-border);
+            padding: 22px 0 52px;
+            color: var(--muted);
+        }
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .footer-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,77,109,0.25);
+            background: rgba(255,77,109,0.05);
+            color: #ff8ea0;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        @media (max-width: 920px) {
+            .hero-inner { grid-template-columns: 1fr; }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 680px) {
+            .nav-links { display: none; }
+            .nav { min-height: 68px; }
+            .hero { padding-top: 56px; }
+            .hero-actions { flex-direction: column; align-items: flex-start; }
+            .download-panel { align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav">
+            <a href="/" class="brand" aria-label="Nexus Corporaton home">
+                <span class="brand-mark">N</span>
+                NEXUS<span>CORP</span>
+            </a>
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="#solutions">Solutions</a>
+                <a href="#" class="disabled" title="Currently unavailable">Directory</a>
+                <a href="#" class="disabled" title="Currently unavailable">Payroll</a>
+                <a href="#" class="disabled" title="Currently unavailable">Support</a>
+                <a href="http://localhost:8083/login">Employee Login</a>
+                <a class="nav-cta" href="http://localhost:8083/register">Register</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container hero">
+        <section class="hero-inner">
+            <div>
+                <div class="eyebrow">secure infrastructure / ai operations</div>
+                <h1>Transform your <span class="gradient-text">digital backbone</span> with precision.</h1>
+                <p class="hero-copy">Nexus Corporation is a leading provider of global IT infrastructure, secure cloud solutions, and enterprise-grade AI operations (such as our proprietary ARIA system). We empower over 380 enterprise clients with high-availability systems, connecting intelligence and trust into one reliable backbone.</p>
+                <div class="hero-actions">
+                    <a class="primary-btn" href="http://localhost:8083/">Access Employee Portal</a>
+                </div>
+                <div class="hero-stats" aria-label="Company metrics">
+                    <div class="stat"><strong>24/7</strong><span>Monitoring</span></div>
+                    <div class="stat"><strong>99.98%</strong><span>Service Uptime</span></div>
+                    <div class="stat"><strong>380+</strong><span>Enterprise Clients</span></div>
+                </div>
+            </div>
+            <div class="logo-panel" aria-label="Nexus corporate logo showcase">
+                <a href="logo.jpg" aria-label="View the full-size Nexus corporate logo" style="display:block;text-decoration:none;">
+                    <div class="logo-box">
+                        <img src="logo.jpg" alt="Nexus Corporation logo">
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="feature-grid" id="solutions">
+            <article class="feature-card">
+                <div class="feature-icon">INFR</div>
+                <h3>Infrastructure Modernization</h3>
+                <p>Restructure legacy systems into resilient cloud-native services with automation, observability, and predictable operations.</p>
+            </article>
+            <article class="feature-card">
+                <div class="feature-icon">SEC</div>
+                <h3>Security Engineering</h3>
+                <p>Implement zero-trust controls, real-time policy enforcement, and adaptive monitoring across critical enterprise environments.</p>
+            </article>
+            <article class="feature-card">
+                <div class="feature-icon">AI</div>
+                <h3>AI Strategy & Delivery</h3>
+                <p>Deploy intelligent workflows that turn raw data into trusted operational insights while keeping governance and compliance at the center.</p>
+            </article>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <div class="brand" aria-label="Nexus footer logo">
+                <span class="brand-mark">N</span>
+                NEXUS<span>CORP</span>
+            </div>
+            <div>© 2026 Nexus Corporation. Built for secure innovation.</div>
+        </div>
+    </footer>
+</body>
+</html>

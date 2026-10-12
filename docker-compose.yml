@@ -1,0 +1,122 @@
+
+# ================================================================
+#  Operation: Rogue Insider — CTF Docker Compose
+#  Start all 6 challenge stages with one command:
+#
+#    docker compose up -d
+#
+#  Port map:
+#    Stage 01 — Nexus Corp Website          → http://localhost:8000
+#    Stage 02 — Employee Portal (IDOR)      → http://localhost:8083
+#    Stage 03 — AI Support Bot              → http://localhost:8081
+#    Stage 04 — ICMP Covert Channel PCAP    → http://localhost:8082
+#    Stage 05 — SSH / SUID PATH Hijacking   → ssh dev@localhost -p 2222
+#    Stage 06 — Vault / XOR+ROP Exploit     → ssh analyst@localhost -p 2223
+# ================================================================
+
+services:
+
+  # ── Stage 01: OSINT & Steganography ──────────────────────────
+  # Nexus Corp static website. Logo contains a hidden ZIP file
+  # embedded with steghide. Players must find it via Nmap recon.
+  stage01-nexus-web:
+    build:
+      context: ./stage01
+      dockerfile: Dockerfile
+    image: stage01-nexus-web
+    container_name: nexus-stage01
+    ports:
+      - "127.0.0.1:8000:80"
+    restart: unless-stopped
+    networks:
+      - nexus-ctf-net
+
+  # ── Stage 02: Web Security & Cryptography ────────────────────
+  # Employee Portal with IDOR vulnerability.
+  # Visit /profile?user_id=1 to expose the administrator's crackable MD5 hash.
+  # Crack it to recover the password required for Stage 03.
+  stage02-webapp:
+    build:
+      context: ./stage02
+      dockerfile: Dockerfile
+    image: stage02-webapp
+    container_name: nexus-stage02
+    ports:
+      - "127.0.0.1:8083:8080"
+    restart: unless-stopped
+    networks:
+      - nexus-ctf-net
+
+  # ── Stage 03: AI / LLM Security ──────────────────────────────
+  # Internal AI support bot. Vulnerable to prompt injection.
+  # Login with admin password cracked from Stage 02.
+  stage03-ai-bot:
+    build:
+      context: ./stage03
+      dockerfile: Dockerfile
+    image: stage03-ai-bot
+    container_name: nexus-stage03
+    ports:
+      - "127.0.0.1:8081:8081"
+    restart: unless-stopped
+    networks:
+      - nexus-ctf-net
+
+  # ── Stage 04: Networking / ICMP Covert Channel ───────────────
+  # PCAP with background noise (HTTP, ARP, TLS) + covert ICMP tunnel.
+  # Credentials hidden as Base64 fragments in ICMP packet data fields.
+  # Wireshark filter: icmp | Look for id=0x1337, src=192.168.1.105
+  stage04-pcap-server:
+    build:
+      context: ./stage04
+      dockerfile: Dockerfile
+    image: stage04-pcap-server
+    container_name: nexus-stage04
+    ports:
+      - "127.0.0.1:8082:8082"
+    restart: unless-stopped
+    networks:
+      - nexus-ctf-net
+
+  # ── Stage 05: Linux System Security / PATH Hijacking ─────────
+  # SSH server with custom SUID binary using relative path in system().
+  # Credentials: dev / SecretPass!2026  (decoded from Stage 04 PCAP)
+  # Exploit: create /tmp/netstat, export PATH=/tmp:$PATH, run system-check
+  # Flag stored at: /root/root_flag.txt
+  # Stage 06 hint at: /root/stage06_hint.txt (read after root)
+  stage05-ssh-server:
+    build:
+      context: ./stage05
+      dockerfile: Dockerfile
+    image: stage05-ssh-server
+    container_name: nexus-stage05
+    ports:
+      - "127.0.0.1:2222:22"
+    restart: unless-stopped
+    networks:
+      - nexus-ctf-net
+
+  # ── Stage 06: Reverse Engineering + ROP Chain ─────────────────
+  # Vault binary with XOR-encrypted PIN + buffer overflow.
+  # Part 1: Reverse XOR in GDB/Ghidra → PIN = 1337
+  # Part 2: Build ROP chain (pop rdi → /bin/sh → ret → system@plt)
+  # Credentials: analyst / V4ult4n4lyst!  (from Stage 05 /root/stage06_hint.txt)
+  # Flag stored at: /root/vault_flag.txt  (requires root shell via ROP)
+  stage06-vault-server:
+    platform: linux/amd64
+    build:
+      context: ./stage06
+      dockerfile: Dockerfile
+    image: stage06-vault-server
+    container_name: nexus-stage06
+    ports:
+      - "127.0.0.1:2223:22"
+    restart: unless-stopped
+    networks:
+      - nexus-ctf-net
+
+# ── Shared Network ────────────────────────────────────────────
+networks:
+  nexus-ctf-net:
+    driver: bridge
+    name: nexus-ctf-network

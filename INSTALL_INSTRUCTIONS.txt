@@ -1,0 +1,71 @@
+OPERATION: ROGUE INSIDER - PORTABLE SETUP
+=========================================
+
+REQUIREMENTS
+------------
+- Docker Engine with the Docker Compose v2 plugin (or Docker Desktop).
+- Python 3.9 or newer and pip, to run the scoring dashboard.
+- An x86-64 host is recommended. Stage 06 is an x86-64 ROP challenge.
+- Ports 8000, 8081, 8082, 8083, 2222, 2223, and 5000 must be available.
+- Initial image build needs internet access to download base images/packages.
+
+START THE CHALLENGE
+-------------------
+1. Extract the archive.
+2. Open a terminal in the extracted `ctf_rogue_insider` folder.
+3. Build and start all six stage services:
+
+   docker compose up -d --build
+
+   Wait for all six containers to start. The first build can take several
+   minutes. Stage 04 generates its packet capture during the image build.
+
+START THE SCORING DASHBOARD
+---------------------------
+On Linux or macOS:
+
+   ./start_dashboard.sh
+
+The script creates a local Python virtual environment and installs the
+dashboard requirements on first run. Open http://localhost:5000 in a browser,
+register a player account, then sign in to track flags and hints.
+
+On Windows PowerShell, open a second terminal in the project folder:
+
+   cd ctf_dashboard
+   py -m venv venv
+   .\venv\Scripts\Activate.ps1
+   py -m pip install -r requirements.txt
+   py app.py
+
+Then open http://localhost:5000. The dashboard starts the challenge containers
+through Docker Compose, so the account running it must have Docker access.
+
+CHALLENGE SERVICES
+------------------
+- Stage 01 website:       http://localhost:8000
+- Stage 02 employee app:  http://localhost:8083
+- Stage 03 ARIA agent:    http://localhost:8081
+- Stage 04 evidence:      http://localhost:8082
+- Stage 05 SSH:           ssh dev@localhost -p 2222
+- Stage 06 SSH:           ssh analyst@localhost -p 2223
+- Scoring dashboard:     http://localhost:5000
+
+STOP THE CHALLENGE
+------------------
+From the project folder:
+
+   docker compose down
+
+INSTRUCTOR CONTENT
+------------------
+This complete project bundle includes source code, challenge flags, the
+official walkthrough, and a Stage 06 solver. Do not distribute this bundle
+to players if the challenge answers must remain secret. The challenge code
+and scoring dashboard also contain answer material by design.
+
+ARCHITECTURE AND OPERATIONS
+---------------------------
+See CTF_Project_Initiation_Document.md for the Compose architecture diagram,
+network and port map, deployment plan, validation matrix, and risk mitigations.
+The validation matrix is a plan and does not indicate that validation was run.
